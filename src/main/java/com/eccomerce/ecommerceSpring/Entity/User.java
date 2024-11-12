@@ -44,8 +44,8 @@ public class User implements UserDetails {
     private Cart cart;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "app_user_role",
-            joinColumns = @JoinColumn(name = "app_user_id"),
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> authorities = new HashSet<>();
 

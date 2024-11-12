@@ -16,10 +16,10 @@ public class OrderServiceImpl implements OrderService{
     private CreditCardService creditCardService;
     private AddressService addressService;
     private UserService userService;
-    private CartItemService cartItemService;
+    private ProductCountService cartItemService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, CreditCardService creditCardService, AddressService addressService, UserService userService, CartItemService cartItemService) {
+    public OrderServiceImpl(OrderRepository orderRepository, CreditCardService creditCardService, AddressService addressService, UserService userService, ProductCountService cartItemService) {
         this.orderRepository = orderRepository;
         this.creditCardService = creditCardService;
         this.addressService = addressService;
@@ -41,10 +41,10 @@ public class OrderServiceImpl implements OrderService{
         CreditCard card = creditCardService.findById(orderRequest.card_id());
         User user = card.getUser();
 
-        List<CartItem> basket = new LinkedList<>();
+        List<ProductCount> basket = new LinkedList<>();
 
         for (Long product_id : orderRequest.products_id()) {
-            CartItem cartItem = cartItemService.findById(product_id);
+            ProductCount cartItem = cartItemService.findById(product_id);
             basket.add(cartItem);
         }
 

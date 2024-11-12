@@ -38,9 +38,9 @@ public class Order {
     private Address address;
 
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinTable(name = "order_cart_item",
+    @JoinTable(name = "order_item",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "cart_item_id")
+            inverseJoinColumns = @JoinColumn(name = "product_count_id")
     )
-    private List<CartItem> basket;
+    private List<ProductCount> basket;
 }

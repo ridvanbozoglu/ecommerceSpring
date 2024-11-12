@@ -1,17 +1,14 @@
 package com.eccomerce.ecommerceSpring.Service;
 
 import com.eccomerce.ecommerceSpring.Entity.Cart;
-import com.eccomerce.ecommerceSpring.Entity.CartItem;
 import com.eccomerce.ecommerceSpring.Entity.Items;
+import com.eccomerce.ecommerceSpring.Entity.ProductCount;
 import com.eccomerce.ecommerceSpring.Entity.User;
 import com.eccomerce.ecommerceSpring.Exceptions.ApiException;
 import com.eccomerce.ecommerceSpring.Reposity.CartRepository;
-import com.eccomerce.ecommerceSpring.Reposity.UserRepository;
 import com.eccomerce.ecommerceSpring.dto.CartItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,14 +16,12 @@ public class CartServiceImpl implements CartService{
     private CartRepository cartRepository;
     private UserService userService;
     private ItemsService itemsService;
-    private CartItemService cartItemService;
 
     @Autowired
-    public CartServiceImpl(CartRepository cartRepository, UserService userService, ItemsService itemsService, CartItemService cartItemService) {
+    public CartServiceImpl(CartRepository cartRepository, UserService userService, ItemsService itemsService) {
         this.cartRepository = cartRepository;
         this.userService = userService;
         this.itemsService = itemsService;
-        this.cartItemService = cartItemService;
     }
 
     @Override
@@ -40,10 +35,9 @@ public class CartServiceImpl implements CartService{
     public Cart addToCart(CartItemDto cartItemDto) {
         Cart cart = userService.findCurrentUser().getCart();
         Items item = itemsService.findById(cartItemDto.item_id());
-        CartItem cartItem = new CartItem();
+        ProductCount cartItem = new ProductCount();
         cartItem.setItem(item);
         cartItem.setQuantity(cartItemDto.quantity());
-        cartItem.setCart(cart);
         cart.addToCart(cartItem);
         return cartRepository.save(cart);
     }
@@ -59,7 +53,7 @@ public class CartServiceImpl implements CartService{
     public Cart incrementCartItem(Long cartItemId) {
         User user = userService.findCurrentUser();
         Cart cart = user.getCart();
-        CartItem cartItem = cart.getCartItems().stream()
+        ProductCount cartItem = cart.getCartItems().stream()
                 .filter(item -> item.getId().equals(cartItemId))
                 .findFirst()
                 .orElseThrow(() -> new ApiException("Cart item not found", HttpStatus.NOT_FOUND));
@@ -71,7 +65,7 @@ public class CartServiceImpl implements CartService{
     public Cart decrementCartItem(Long cartItemId) {
         User user = userService.findCurrentUser();
         Cart cart = user.getCart();
-        CartItem cartItem = cart.getCartItems().stream()
+        ProductCount cartItem = cart.getCartItems().stream()
                 .filter(item -> item.getId().equals(cartItemId))
                 .findFirst()
                 .orElseThrow(() -> new ApiException("Cart item not found",HttpStatus.NOT_FOUND));

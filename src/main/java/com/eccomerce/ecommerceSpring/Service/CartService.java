@@ -1,7 +1,6 @@
 package com.eccomerce.ecommerceSpring.Service;
 
 import com.eccomerce.ecommerceSpring.Entity.Cart;
-import com.eccomerce.ecommerceSpring.Entity.CartItem;
 import com.eccomerce.ecommerceSpring.dto.CartItemDto;
 
 public interface CartService {

@@ -1,7 +1,6 @@
 package com.eccomerce.ecommerceSpring.Controller;
 
 import com.eccomerce.ecommerceSpring.Entity.Cart;
-import com.eccomerce.ecommerceSpring.Entity.CartItem;
 import com.eccomerce.ecommerceSpring.Service.CartService;
 import com.eccomerce.ecommerceSpring.dto.CartItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,4 @@ public class CartController {
     public Cart removeCartItemFromCart(@PathVariable Long id){
         return cartService.removeFromCart(id);
     }
-
-
 }
