@@ -1,7 +1,9 @@
 package com.eccomerce.ecommerceSpring.Controller;
 
 import com.eccomerce.ecommerceSpring.Entity.Cart;
+import com.eccomerce.ecommerceSpring.Entity.CartItem;
 import com.eccomerce.ecommerceSpring.Service.CartService;
+import com.eccomerce.ecommerceSpring.dto.CartItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,16 @@ public class CartController {
     @PostMapping("/{cartItemId}/decrement")
     public Cart decrementCartItem(@PathVariable Long cartItemId){
         return cartService.decrementCartItem(cartItemId);
+    }
+
+    @PostMapping("/")
+    public Cart addCartItemToCart(@RequestBody CartItemDto cartItemDto){
+        return cartService.addToCart(cartItemDto);
+    }
+
+    @DeleteMapping("/{cartItemId}")
+    public Cart removeCartItemFromCart(@PathVariable Long id){
+        return cartService.removeFromCart(id);
     }
 
 

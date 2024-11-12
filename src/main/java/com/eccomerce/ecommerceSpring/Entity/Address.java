@@ -1,5 +1,6 @@
 package com.eccomerce.ecommerceSpring.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,8 @@ public class Address {
     @Column(name = "full_address")
     private String fullAddress;
 
-
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 }

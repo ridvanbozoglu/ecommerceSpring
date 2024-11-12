@@ -16,4 +16,7 @@ public class Category {
     private Double rating;
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 }

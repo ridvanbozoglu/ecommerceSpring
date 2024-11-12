@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +28,23 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
+
+    public boolean addToCart(CartItem cartItem){
+        cartItems.add(cartItem);
+        return true;
+    }
+
+    public boolean removeFromCart(Long id){
+        if (cartItems == null || cartItems.isEmpty()){
+            return false;
+        }
+        Optional<CartItem> cartItem = cartItems.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst();
+        if(cartItem.isPresent()){
+            cartItems.remove(cartItem.get());
+            return true;
+        }else return false;
+    }
 }

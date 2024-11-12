@@ -1,5 +1,6 @@
 package com.eccomerce.ecommerceSpring.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class CreditCard {
     @Pattern(regexp = "^[0-9]{3}$", message = "Card number must be exactly 3 digits")
     private String cvv;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id",  nullable = false)
     private User user;
