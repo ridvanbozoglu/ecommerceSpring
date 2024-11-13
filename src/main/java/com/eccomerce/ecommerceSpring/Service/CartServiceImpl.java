@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CartServiceImpl implements CartService{
     private CartRepository cartRepository;
@@ -32,15 +35,31 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Cart addToCart(CartItemDto cartItemDto) {
+    public List<CartItemDto> addToCart(CartItemDto[] cartItemDtos) {
         Cart cart = userService.findCurrentUser().getCart();
-        Items item = itemsService.findById(cartItemDto.item_id());
-        ProductCount cartItem = new ProductCount();
-        cartItem.setItem(item);
-        cartItem.setQuantity(cartItemDto.quantity());
-        cart.addToCart(cartItem);
-        return cartRepository.save(cart);
+        List<CartItemDto> successfullyAddedItems = new ArrayList<>();
+        List<CartItemDto> failedItems = new ArrayList<>();
+
+        for (CartItemDto cartItemDto : cartItemDtos) {
+            try {
+                Items item = itemsService.findById(cartItemDto.item_id());
+                ProductCount cartItem = new ProductCount();
+                cartItem.setItem(item);
+                cartItem.setQuantity(cartItemDto.quantity());
+                cartItem.setCart(cart);
+                cart.addToCart(cartItem);
+                cartRepository.save(cart);
+                successfullyAddedItems.add(cartItemDto);
+            } catch (Exception e) {
+                System.out.println(e);
+                failedItems.add(cartItemDto);
+            }
+        }
+
+        System.out.println("Successfully added items: " + successfullyAddedItems);
+        return failedItems;
     }
+
 
     @Override
     public Cart removeFromCart(Long id) {

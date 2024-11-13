@@ -1,6 +1,7 @@
 package com.eccomerce.ecommerceSpring.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Order {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "order_item",
             joinColumns = @JoinColumn(name = "order_id"),
