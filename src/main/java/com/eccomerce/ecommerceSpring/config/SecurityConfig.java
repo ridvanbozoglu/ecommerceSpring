@@ -50,7 +50,8 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.anyRequest().permitAll();
+                    auth.requestMatchers("/auth/**").permitAll();
+                    auth.anyRequest().authenticated();
                 })
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());

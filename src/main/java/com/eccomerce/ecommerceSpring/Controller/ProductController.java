@@ -25,20 +25,16 @@ public class ProductController {
             @RequestParam(value = "filter", required = false) String filter,
             @RequestParam(value = "limit", required = false) Integer limit,
             @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
-            @RequestParam(value = "sort", required = false, defaultValue = "price:asc") String sort) {
+            @RequestParam(value = "sort", required = false, defaultValue = "price:asc") String sort
+    ) {
         if (limit == null) {
             limit = Integer.MAX_VALUE;
         }
         return itemsService.getAll(category, filter, limit, offset,sort);
     }
 
-
     @PostMapping("/")
     public List<ItemsIn> postItems(@RequestBody ItemsIn... items){
         return itemsService.post(items);
     }
-
-
-
-
 }

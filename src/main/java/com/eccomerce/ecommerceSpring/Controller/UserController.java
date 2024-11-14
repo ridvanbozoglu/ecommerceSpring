@@ -23,6 +23,11 @@ public class UserController {
     }
 
     @GetMapping("/")
+    public User findCurrent(){
+        return userService.findCurrentUser();
+    }
+
+    @GetMapping("/all")
     public List<User> findAll(){
         return userService.findAll();
     }
